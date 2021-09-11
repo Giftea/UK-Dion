@@ -2,9 +2,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// core components
 import Background from "components/Auth/Background.js";
 import AuthForm from "components/Auth/AuthForm.js";
 import styles from "assets/jss/general/layouts/authStyle.js";
