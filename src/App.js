@@ -32,6 +32,7 @@ const Routes = () => {
     <Switch>
       <ProtectedRoute path="/admin" auth={Auth.auth} component={Admin} />
       <ProtectedLogin path="/auth" auth={Auth.auth} component={AuthComponent} />
+      <Redirect from="/" to="/auth/login" />
     </Switch>
   );
 };
