@@ -26,6 +26,6 @@ yarn-error.log*
 package-lock.json
 
 commit.sh
-gulpfile.json
+gulpfile.js
 
 LICENSE.md
