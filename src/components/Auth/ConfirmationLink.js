@@ -1,4 +1,5 @@
 import React from "react";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/general/components/authStyle.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -6,8 +7,6 @@ import Bold from "components/Typography/BoldBlue";
 import VeryLightText from "components/Typography/VeryLight";
 import logo from "assets/img/UK DION 2.png";
 import { useHistory } from "react-router-dom";
-
-import { resetPassword } from "utils/auth-api";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Hidden } from "@material-ui/core";
 
@@ -16,36 +15,24 @@ const useStyles = makeStyles(styles);
 const Confirmation = () => {
   let history = useHistory();
   const classes = useStyles();
-  const [loading, setLoading] = React.useState(false);
+  const { loading } = useStoreState((state) => state.auth);
+  const { forgotPassword } = useStoreActions((state) => state.auth);
   const [errorText, setErrorText] = React.useState("");
   const [values, setValues] = React.useState({
     email: "",
   });
-  const timer = React.useRef();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (values.email === "") {
       setErrorText(" Please Enter Your Email Address");
-    } else {
-      if (!loading) {
-        setLoading(true);
-        timer.current = window.setTimeout(() => {
-          setLoading(false);
-        }, 5000);
-      }
-
-      const res = await resetPassword({
-        email: values.email,
-      });
-      res.data === "Sent"
-        ? history.push("/auth/reset-password")
-        : setErrorText(" Invalid Email Address");
-
-      setValues({
-        email: "",
-      });
     }
+
+    forgotPassword({
+      data: values,
+      callback: () => {
+        history.push("/auth/reset-password");
+      },
+    });
   };
 
   const handleChange = (prop) => (event) => {

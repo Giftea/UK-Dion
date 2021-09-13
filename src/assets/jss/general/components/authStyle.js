@@ -48,6 +48,7 @@ const authStyle = (theme) => ({
   authWrapper: {
     backgroundColor: "#fff",
     display: "flex",
+    height: "100vh",
     justifyContent: "center",
     [theme.breakpoints.up("lg")]: {
       width: "50vw",
@@ -89,7 +90,7 @@ const authStyle = (theme) => ({
   },
   authFooter: {
     width: "100%",
-    paddingLeft: "100px",
+    paddingLeft: "60px",
     paddingTop: "100px",
   },
   authFooter2: {

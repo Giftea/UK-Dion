@@ -1,4 +1,5 @@
 import React from "react";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/general/components/authStyle.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -14,8 +15,6 @@ import Hidden from "@material-ui/core/Hidden";
 import Typography from "components/Typography/White";
 import QuoteText from "components/Typography/Quote";
 import AuthApi from "AuthApi";
-import Cookies from "js-cookie";
-import { login } from "utils/auth-api";
 
 const useStyles = makeStyles(styles);
 
@@ -26,34 +25,16 @@ const Login = () => {
     password: "",
     showPassword: false,
   });
-  const [loading, setLoading] = React.useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [success, setSuccess] = React.useState(false);
-  const timer = React.useRef();
+  const { loading } = useStoreState((state) => state.auth);
+  const { login } = useStoreActions((state) => state.auth);
 
   const Auth = React.useContext(AuthApi);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!loading) {
-      setSuccess(false);
-      setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 9000);
-    }
-    const res = await login({
-      email: values.email,
-      password: values.password,
-    });
-    if (res.data.status === true) {
-      Auth.setAuth(true);
-      Cookies.set("user", "loginTrue");
-    }
-    setValues({
-      email: "",
-      password: "",
-      showPassword: false,
+  const handleSubmit = async () => {
+    login({
+      data: values,
+      callback: () => {
+        Auth.setAuth(true);
+      },
     });
   };
 

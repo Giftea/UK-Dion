@@ -1,4 +1,5 @@
 import React from "react";
+import { useStoreState } from "easy-peasy";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -24,7 +25,16 @@ import CustomInput from "components/CustomInput/CustomInput";
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+  const { currentUser } = useStoreState((state) => state.auth);
+  console.log(currentUser);
   const classes = useStyles();
+
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date + " " + time;
   return (
     <div>
       <GridContainer>
@@ -42,9 +52,12 @@ export default function Dashboard() {
             <CardBody>
               <div className={classes.flex}>
                 <div>
-                  <VeryLightText>Monday, 10:38 AM</VeryLightText>
+                  <VeryLightText>{dateTime}</VeryLightText>
                   <LightText className={classes.cardTitle}>
-                    Good morning <strong>Gloria!</strong>
+                    Good morning{" "}
+                    <strong>
+                      {currentUser ? currentUser.username : "Gloria"}
+                    </strong>
                   </LightText>
                 </div>
                 <div>

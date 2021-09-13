@@ -8,8 +8,8 @@ import Cookies from "js-cookie";
 const App = () => {
   const [auth, setAuth] = useState(false);
   const readCookie = () => {
-    const user = Cookies.get("user");
-    if (user) {
+    const user_token = Cookies.get("user_token");
+    if (user_token) {
       setAuth(true);
     }
   };

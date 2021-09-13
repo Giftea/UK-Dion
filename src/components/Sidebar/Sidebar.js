@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import { useStoreActions } from "easy-peasy";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink, useLocation } from "react-router-dom";
@@ -21,17 +22,21 @@ import Cookies from "js-cookie";
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
+  const { logOut } = useStoreActions((state) => state.auth);
+
   const classes = useStyles();
   let location = useLocation();
+  const token = Cookies.get("token");
   function activeRoute(routeName) {
     return location.pathname === routeName;
   }
   const Auth = React.useContext(AuthApi);
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
+    logOut();
     Auth.setAuth(false);
-    Cookies.remove("user");
+    console.log("works")
   };
-  const { color, logo, logoText, routes,lroutes } = props;
+  const { color, logo, logoText, routes, lroutes } = props;
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
@@ -90,7 +95,7 @@ export default function Sidebar(props) {
           <>
             <NavLink
               to={prop.layout + prop.path}
-              className={ classes.item}
+              className={classes.item}
               activeClassName="active"
               key={key}
             >
